@@ -19,10 +19,11 @@ typedef struct {
 	int nivel;
 } Tanque;
 
+/* --- PROTOTIPOS DE FUNCIONES --- */
 void cargar_tanque(Tanque *lista_tanques, int cantidad_actual, Tanque *tanque_min1, Tanque *tanque_min2);
-void buscar_tanque(Tanque *lista_tanques, int cantidad_actual);
-void mostrar_tanques(Tanque *lista_tanques, int cantidad_actual);
-void mostrar_minimos(Tanque *tanque_min1, Tanque *tanque_min2, int cantidad_actual);
+void buscar_tanque(const Tanque *lista_tanques, int cantidad_actual);
+void mostrar_tanques(const Tanque *lista_tanques, int cantidad_actual);
+void mostrar_minimos(const Tanque *tanque_min1, const Tanque *tanque_min2, int cantidad_actual);
 
 int main(int argc, char *argv[]) {
 	int opcion = 0;
@@ -101,7 +102,6 @@ int main(int argc, char *argv[]) {
 			if (nueva_capacidad < capacidad_inicial) {
 				printf("\nPor favor elija una cantidad de datos mayor a la actual");
 			} else {
-				
 				Tanque *temp = (Tanque *)realloc(lista_tanques, sizeof(Tanque) * nueva_capacidad);
 				if (temp == NULL) {
 					printf("\nError: No se pudo reasignar memoria.");
@@ -130,6 +130,13 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
+/**
+* Carga un nuevo tanque en la lista y actualiza los dos registros con menores niveles.
+* @param lista_tanques Puntero al arreglo dinámico de tanques.
+* @param cantidad_actual Posición actual donde se guardará el nuevo tanque.
+* @param tanque_min1 Puntero que almacena el tanque con el nivel más bajo.
+* @param tanque_min2 Puntero que almacena el tanque con el segundo nivel más bajo.
+*/
 void cargar_tanque(Tanque *lista_tanques, int cantidad_actual, Tanque *tanque_min1, Tanque *tanque_min2) {    
 	printf("\nIngrese el sector del tanque: ");
 	fgets(lista_tanques[cantidad_actual].sector, sizeof(lista_tanques[cantidad_actual].sector), stdin);
@@ -144,7 +151,7 @@ void cargar_tanque(Tanque *lista_tanques, int cantidad_actual, Tanque *tanque_mi
 		if (scanf("%d", &lista_tanques[cantidad_actual].nivel) != 1) {
 			printf("\nError: Ingrese un valor numerico.");
 			fflush(stdin);
-			lista_tanques[cantidad_actual].nivel = -1; 
+			lista_tanques[cantidad_actual].nivel = -1;
 			continue;
 		}
 		fflush(stdin);
@@ -169,9 +176,17 @@ void cargar_tanque(Tanque *lista_tanques, int cantidad_actual, Tanque *tanque_mi
 	}
 }
 
-void buscar_tanque(Tanque *lista_tanques, int cantidad_actual) {
-	int opcion_busqueda, indice, tanque_encontrado = -1;
-	char nombre_buscado[TAMANIO_CADENA], sector_buscado[TAMANIO_CADENA];
+/**
+* Busca un tanque en el sistema utilizando su nombre o sector.
+* @param lista_tanques Arreglo constante de tanques a recorrer.
+* @param cantidad_actual Cantidad de elementos cargados actualmente en el sistema.
+*/
+void buscar_tanque(const Tanque *lista_tanques, int cantidad_actual) {
+	int opcion_busqueda = 0;
+	int indice = 0;
+	int tanque_encontrado = -1;
+	char nombre_buscado[TAMANIO_CADENA];
+	char sector_buscado[TAMANIO_CADENA];
 	
 	do {
 		printf("\nIngrese caracteristica que desea buscar:");
@@ -224,7 +239,13 @@ void buscar_tanque(Tanque *lista_tanques, int cantidad_actual) {
 	}
 }
 
-void mostrar_minimos(Tanque *tanque_min1, Tanque *tanque_min2, int cantidad_actual) {
+/**
+* Muestra por pantalla los dos tanques con el nivel de agua más bajo.
+* @param tanque_min1 Puntero al primer tanque mínimo.
+* @param tanque_min2 Puntero al segundo tanque mínimo.
+* @param cantidad_actual Cantidad total de tanques cargados.
+*/
+void mostrar_minimos(const Tanque *tanque_min1, const Tanque *tanque_min2, int cantidad_actual) {
 	if (cantidad_actual < 2) {
 		printf("\nPor favor ingrese mas de dos tanques para iniciar esta funcion");
 	} else {
@@ -240,9 +261,14 @@ void mostrar_minimos(Tanque *tanque_min1, Tanque *tanque_min2, int cantidad_actu
 	}
 }
 
-void mostrar_tanques(Tanque *lista_tanques, int cantidad_actual) {
-	int indice;
-	printf("\n== Lista de tanques ==") ;
+/**
+* Muestra el listado completo de todos los tanques registrados.
+* @param lista_tanques Arreglo de tanques a mostrar.
+* @param cantidad_actual Número de elementos cargados.
+*/
+void mostrar_tanques(const Tanque *lista_tanques, int cantidad_actual) {
+	int indice = 0;
+	printf("\n== Lista de tanques ==");
 	for (indice = 0; indice < cantidad_actual; indice++) {
 		printf("\nTanque %d:", indice);
 		printf("\nNombre de tanque: %s", lista_tanques[indice].nombre_tanque);
