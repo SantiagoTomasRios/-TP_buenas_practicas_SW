@@ -92,17 +92,22 @@ void cargarTanque(Tanques *t,int n, Tanques *t1, Tanques *t2){
 			printf("\nElija un nivel entre 0 y 100:");
 		}
 	} while(t[n].nivel>100 || t[n].nivel<0 );
-	if(n==0){
-		*t1=t[n];
-	}
-	if(n==1){
-		*t2=t[n];
-	}
-	if(n>=2){
-		if((t[n].nivel)<(t1->nivel)){
-			*t1=t[n];
-		}else if((t[n].nivel)<(t2->nivel)){
-			*t2=t[n];
+	if (n == 0) {
+		*t1 = t[n];
+		*t2 = t[n]; // Inicializamos ambos con el primero por seguridad
+	} else if (n == 1) {
+		if (t[n].nivel < t1->nivel) {
+			*t2 = *t1;
+			*t1 = t[n];
+		} else {
+			*t2 = t[n];
+		}
+	} else {
+		if (t[n].nivel < t1->nivel) {
+			*t2 = *t1;
+			*t1 = t[n];
+		} else if (t[n].nivel < t2->nivel) {
+			*t2 = t[n];
 		}
 	}
 }
