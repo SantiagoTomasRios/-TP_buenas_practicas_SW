@@ -2,16 +2,30 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+#define TAMANIO_CADENA 100
+#define NIVEL_MINIMO 0
+#define NIVEL_MAXIMO 100
+
+#define OPCION_CARGAR 1
+#define OPCION_BUSCAR 2
+#define OPCION_MOSTRAR 3
+#define OPCION_MINIMOS 4
+#define OPCION_AUMENTAR 5
+#define OPCION_SALIR 6
+
+
 typedef struct {
-	char sector[100];
-	char nombre_tanque[100];
+	char sector[TAMANIO_CADENA];
+	char nombre_tanque[TAMANIO_CADENA];
 	int nivel;
 } Tanque;
 
+
 void cargar_tanque(Tanque *lista_tanques, int cantidad_actual, Tanque *tanque_min1, Tanque *tanque_min2);
-void mostrar_minimos(Tanque *tanque_min1, Tanque *tanque_min2, int cantidad_actual);
 void buscar_tanque(Tanque *lista_tanques, int cantidad_actual);
 void mostrar_tanques(Tanque *lista_tanques, int cantidad_actual);
+void mostrar_minimos(Tanque *tanque_min1, Tanque *tanque_min2, int cantidad_actual);
 
 int main(int argc, char *argv[]) {
 	int opcion = 0;
@@ -28,7 +42,7 @@ int main(int argc, char *argv[]) {
 	
 	Tanque *lista_tanques = (Tanque *)malloc(sizeof(Tanque) * capacidad_inicial);
 	
-	while (opcion != 6) {
+	while (opcion != OPCION_SALIR) {
 		printf("\n=================================================");
 		printf("\nMenu:");
 		printf("\n1. Cargar tanque");
@@ -43,7 +57,7 @@ int main(int argc, char *argv[]) {
 		fflush(stdin);
 		
 		switch (opcion) {
-		case 1:
+		case OPCION_CARGAR: {
 			if (capacidad_inicial == cantidad_tanques) {
 				printf("\nMemoria llena, aumentar cantidad de datos");
 			} else {
@@ -51,16 +65,20 @@ int main(int argc, char *argv[]) {
 				cantidad_tanques++;
 			}
 			break;
-		case 2:
+		}
+		case OPCION_BUSCAR: {
 			buscar_tanque(lista_tanques, cantidad_tanques); 
 			break;
-		case 3:
+		}
+		case OPCION_MOSTRAR: {
 			mostrar_tanques(lista_tanques, cantidad_tanques);
 			break;
-		case 4:
+		}
+		case OPCION_MINIMOS: {
 			mostrar_minimos(tanque_min1, tanque_min2, cantidad_tanques);
 			break;
-		case 5:
+		}
+		case OPCION_AUMENTAR: {
 			printf("\nIngrese cantidad de datos que quiere cargar: ");
 			scanf("%d", &nueva_capacidad);
 			fflush(stdin);
@@ -71,11 +89,15 @@ int main(int argc, char *argv[]) {
 				capacidad_inicial = nueva_capacidad;
 			}
 			break;
-		case 6:
+		}
+		case OPCION_SALIR: {
 			printf("Programa finalizado");
 			break;
-		default:
+		}
+		default: {
 			printf("\nPor favor ingrese un dato valido");
+			break;
+		}
 		}
 	}
 	
@@ -84,6 +106,7 @@ int main(int argc, char *argv[]) {
 	free(tanque_min2);
 	return 0;
 }
+
 
 void cargar_tanque(Tanque *lista_tanques, int cantidad_actual, Tanque *tanque_min1, Tanque *tanque_min2) {    
 	printf("\nIngrese el sector del tanque: ");
@@ -95,13 +118,13 @@ void cargar_tanque(Tanque *lista_tanques, int cantidad_actual, Tanque *tanque_mi
 	fflush(stdin);
 	
 	do {
-		printf("\nIngrese el nivel del tanque: ");
+		printf("\nIngrese el nivel del tanque (%d a %d): ", NIVEL_MINIMO, NIVEL_MAXIMO);
 		scanf("%d", &lista_tanques[cantidad_actual].nivel);
 		fflush(stdin);
-		if (lista_tanques[cantidad_actual].nivel > 100 || lista_tanques[cantidad_actual].nivel < 0) {
-			printf("\nElija un nivel entre 0 y 100:");
+		if (lista_tanques[cantidad_actual].nivel > NIVEL_MAXIMO || lista_tanques[cantidad_actual].nivel < NIVEL_MINIMO) {
+			printf("\nElija un nivel valido:");
 		}
-	} while (lista_tanques[cantidad_actual].nivel > 100 || lista_tanques[cantidad_actual].nivel < 0);
+	} while (lista_tanques[cantidad_actual].nivel > NIVEL_MAXIMO || lista_tanques[cantidad_actual].nivel < NIVEL_MINIMO);
 	
 	if (cantidad_actual == 0) {
 		*tanque_min1 = lista_tanques[cantidad_actual];
@@ -120,7 +143,7 @@ void cargar_tanque(Tanque *lista_tanques, int cantidad_actual, Tanque *tanque_mi
 
 void buscar_tanque(Tanque *lista_tanques, int cantidad_actual) {
 	int opcion_busqueda, indice, tanque_encontrado = -1;
-	char nombre_buscado[100], sector_buscado[100];
+	char nombre_buscado[TAMANIO_CADENA], sector_buscado[TAMANIO_CADENA];
 	
 	do {
 		printf("\nIngrese caracteristica que desea buscar:");
