@@ -94,7 +94,7 @@ void cargarTanque(Tanques *t,int n, Tanques *t1, Tanques *t2){
 	} while(t[n].nivel>100 || t[n].nivel<0 );
 	if (n == 0) {
 		*t1 = t[n];
-		*t2 = t[n]; // Inicializamos ambos con el primero por seguridad
+		*t2 = t[n];
 	} else if (n == 1) {
 		if (t[n].nivel < t1->nivel) {
 			*t2 = *t1;
@@ -151,12 +151,10 @@ void buscar(Tanques *t, int n){
 	if(ntanque == -1){
 			printf("\nTanque no encontrado");
 		}else{
-		for(i=0;i<n;i++){
 			printf("\nTanque encontrado:");
 			printf("\nNombre de tanque: %s", t[ntanque].nombreTanque);
 			printf("\nSector del tanque: %s", t[ntanque].sector);
 			printf("\nNivel del tanque: %d", t[ntanque].nivel);
-		}
 	}
 }
 
