@@ -16,7 +16,7 @@ void mostrar(Tanques *t, int n);
 
 
 int main(int argc, char *argv[]) {
-	int opcion, nTanques, nDatos, nnDatos;
+	int opcion=0, nTanques, nDatos, nnDatos;
 	Tanques *t1 = (Tanques *)malloc(sizeof(Tanques));
 	Tanques *t2 = (Tanques *)malloc(sizeof(Tanques));
 	printf("Ellija numero de tanques que va a cargar");
